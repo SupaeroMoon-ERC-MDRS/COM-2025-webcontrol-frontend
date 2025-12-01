@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:supaeromoon_webcontrol/data/control_data.dart';
+import 'package:supaeromoon_webcontrol/ui/controls/control_painters.dart';
 
 class ControlStack extends StatelessWidget {
   const ControlStack({super.key, required this.size, required this.orientation});
@@ -8,29 +10,50 @@ class ControlStack extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Size button4Size = Size.square(size.height / 5);
     return SizedBox.fromSize(
       size: size,
       child: Stack(
         fit: StackFit.expand,
         children: [
           Positioned(
-            top: size.height / 2,
-            left: size.width / 5,
-            child: Container(color: Colors.red, child: Text("LButtons"),)
+            top: size.height / 2 - button4Size.height / 2,
+            left: size.width / 5 - button4Size.width / 2,
+            child: Button4(
+              size: button4Size,
+              onUpdate: (final Button4State state) {
+                controlData.update((final ControlData data){
+                  data.lBottom = state.b;
+                  data.lLeft = state.l;
+                  data.lRight = state.r;
+                  data.lTop = state.t;
+                });
+              },
+            )
           ),
           Positioned(
-            top: size.height / 2,
-            left: 4 * size.width / 5,
-            child: Container(color: Colors.red, child: Text("RButtons"),)
+            top: size.height / 2 - button4Size.height / 2,
+            left: 4 * size.width / 5 - button4Size.width / 2,
+            child: Button4(
+              size: button4Size,
+              onUpdate: (final Button4State state) {
+                controlData.update((final ControlData data){
+                  data.rBottom = state.b;
+                  data.rLeft = state.l;
+                  data.rRight = state.r;
+                  data.rTop = state.t;
+                });
+              },
+            )
           ),
           Positioned(
             top: 2 * size.height / 3,
-            left: size.width / 3,
+            left: 2 * size.width / 5,
             child: Container(color: Colors.red, child: Text("LStick"),)
           ),
           Positioned(
             top: 2 * size.height / 3,
-            left: 2 * size.width / 3,
+            left: 3 * size.width / 5,
             child: Container(color: Colors.red, child: Text("RStick"),)
           ),
           Positioned(
