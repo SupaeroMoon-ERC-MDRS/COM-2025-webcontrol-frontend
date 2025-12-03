@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:supaeromoon_webcontrol/data/control_data.dart';
 import 'package:supaeromoon_webcontrol/ui/controls/control_painters.dart';
@@ -47,14 +49,30 @@ class ControlStack extends StatelessWidget {
             )
           ),
           Positioned(
-            top: 2 * size.height / 3,
-            left: 2 * size.width / 5,
-            child: Container(color: Colors.red, child: Text("LStick"),)
+            top: 2 * size.height / 3 - button4Size.height / 2,
+            left: 2 * size.width / 5 - button4Size.width / 2,
+            child: Stick(
+              size: button4Size,
+              onUpdate: (final StickState state){
+                controlData.update((final ControlData data){
+                  data.thumbLeftX = (state.r * cos(state.a)).truncate() + 128;
+                  data.thumbLeftY = -(state.r * sin(state.a)).truncate() + 128;
+                });
+              }
+            )
           ),
           Positioned(
-            top: 2 * size.height / 3,
-            left: 3 * size.width / 5,
-            child: Container(color: Colors.red, child: Text("RStick"),)
+            top: 2 * size.height / 3 - button4Size.height / 2,
+            left: 3 * size.width / 5 - button4Size.width / 2,
+            child: Stick(
+              size: button4Size,
+              onUpdate: (final StickState state){
+                controlData.update((final ControlData data){
+                  data.thumbRightX = (state.r * cos(state.a)).truncate() + 128;
+                  data.thumbRightY = -(state.r * sin(state.a)).truncate() + 128;
+                });
+              }
+            )
           ),
           Positioned(
             top: size.height / 4,

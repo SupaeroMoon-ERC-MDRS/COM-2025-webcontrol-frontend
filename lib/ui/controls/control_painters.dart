@@ -23,38 +23,22 @@ class Button4 extends StatefulWidget {
 class _Button4State extends State<Button4> {
   final Button4State buttonState = Button4State();
 
-  void _pressAt(final Offset pos){
+  void _actionAt(final Offset pos, final bool set){
     final int dir = (pos.direction * 2 / pi).round();
     if(dir == 0){
-      buttonState.r = true;
+      buttonState.r = set;
     }
     else if(dir == 1){
-      buttonState.b = true;
+      buttonState.b = set;
     }
     else if(dir == 2 || dir == -2){
-      buttonState.l = true;
+      buttonState.l = set;
     }
     else if(dir == -1){
-      buttonState.t = true;
+      buttonState.t = set;
     }
     widget.onUpdate(buttonState);
-  }
-
-  void _releaseAt(final Offset pos){
-    final int dir = (pos.direction * 2 / pi).round();
-    if(dir == 0){
-      buttonState.r = false;
-    }
-    else if(dir == 1){
-      buttonState.b = false;
-    }
-    else if(dir == 2 || dir == -2){
-      buttonState.l = false;
-    }
-    else if(dir == -1){
-      buttonState.t = false;
-    }
-    widget.onUpdate(buttonState);
+    setState(() {});
   }
 
   @override
@@ -62,8 +46,8 @@ class _Button4State extends State<Button4> {
     return SizedBox.fromSize(
       size: widget.size,
       child: GestureDetector(
-        onTapDown: (details) => _pressAt(details.localPosition - widget.size.center(Offset.zero)),
-        onTapUp: (details) => _releaseAt(details.localPosition - widget.size.center(Offset.zero)),
+        onTapDown: (details) => _actionAt(details.localPosition - widget.size.center(Offset.zero), true),
+        onTapUp: (details) => _actionAt(details.localPosition - widget.size.center(Offset.zero), false),
         child: CustomPaint(
           painter: _Button4Painter(state: buttonState),
         ),
@@ -153,4 +137,89 @@ class _Button4Painter extends CustomPainter {
 
   @override
   bool shouldRebuildSemantics(_Button4Painter oldDelegate) => false;
+}
+
+/////////////////////////////////////////////////////////////////////////
+
+class StickState{
+  double r = 0;
+  double a = 0;
+
+  bool get isZero => r == 0 && a == 0;
+}
+
+class Stick extends StatefulWidget {
+  const Stick({super.key, required this.size, required this.onUpdate});
+
+  final Size size;
+  final void Function(StickState) onUpdate;
+
+  @override
+  State<Stick> createState() => _StickState();
+}
+
+class _StickState extends State<Stick> {
+  final StickState stickState = StickState();
+
+  void _actionAt(final Offset pos, final bool set){
+    
+    if(set){
+      stickState.a = atan2(pos.dy, pos.dx);
+      stickState.r = (pos.dx / (widget.size.width / 2) * 127 / cos(stickState.a)).clamp(0, 127);
+    }
+    else{
+      stickState.r = 0;
+      stickState.a = 0;
+    }
+    widget.onUpdate(stickState);
+    setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox.fromSize(
+      size: widget.size,
+      child: GestureDetector(
+        onPanUpdate: (details) => _actionAt(details.localPosition - widget.size.center(Offset.zero), true),
+        onPanEnd: (details) => _actionAt(details.localPosition - widget.size.center(Offset.zero), false),
+        child: CustomPaint(
+          painter: _StickPainter(state: stickState),
+        ),
+      ),
+    );
+  }
+}
+
+class _StickPainter extends CustomPainter {
+
+  final StickState state;
+
+  _StickPainter({required this.state});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final Paint secPaint = Paint()..color = ThemeManager.globalStyle.secondaryColor;
+    final Paint bgPaint = Paint()..color = ThemeManager.globalStyle.bgColor;
+    final Paint activePaint = Paint()..color = ThemeManager.globalStyle.primaryColor;
+
+    final Offset center = size.center(Offset.zero);
+    final double halfdim = size.width / 2;
+    final double thirddim = size.width / 3;
+
+    canvas.drawCircle(center, halfdim, secPaint..style = PaintingStyle.fill);
+
+    if(state.isZero){
+      canvas.drawCircle(center, thirddim, bgPaint..style = PaintingStyle.fill);
+    }
+    else{
+      final double r = state.r / 127 * halfdim;
+      canvas.drawCircle(center + Offset(r * cos(state.a), r * sin(state.a)), thirddim, activePaint..style = PaintingStyle.fill);
+    }
+  }
+
+  @override
+  bool shouldRepaint(_StickPainter oldDelegate) => false;
+
+  @override
+  bool shouldRebuildSemantics(_StickPainter oldDelegate) => false;
 }

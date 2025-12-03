@@ -6,6 +6,8 @@ import 'package:supaeromoon_webcontrol/ui/theme.dart';
 
 abstract class AppState{
   static bool isRotated = false;
+  static bool hasServer = false;
+  static bool hasControl = false;
 
   static BlankNotifier notifier = BlankNotifier(null);
 }

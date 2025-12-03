@@ -2,6 +2,9 @@
 
 enum MessageId{
   OK,
+  DENIED,
+  CERR,
+  SERR,
   CTRL,
   PING,
   ECHO,
