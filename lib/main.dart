@@ -5,8 +5,8 @@ import 'package:supaeromoon_webcontrol/lifecycle.dart';
 import 'package:supaeromoon_webcontrol/ui/screen.dart';
 import 'package:supaeromoon_webcontrol/ui/theme.dart';
 
-void main() async {
-  await LifeCycle.preInit();
+void main() {
+  LifeCycle.preInit();
   runApp(const MainApp());
 }
 
