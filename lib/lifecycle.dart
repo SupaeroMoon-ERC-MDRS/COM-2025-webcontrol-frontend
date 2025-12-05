@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:supaeromoon_webcontrol/data/localization.dart';
 import 'package:supaeromoon_webcontrol/net/message_id.dart';
 import 'package:supaeromoon_webcontrol/net/net.dart';
@@ -8,12 +6,15 @@ import 'package:supaeromoon_webcontrol/ui/screen.dart';
 abstract class LifeCycle{
   static void preInit(){
     Loc.setLanguage("en_EN");
-    if(!Net.init()){
-      exit(0);
+
+    if(!Net.init()){ // TODO some retry mechanism
+      return;
     }
-    Net.requestControl().then((final int res){
-      AppState.hasControl = res == MessageId.OK.index;
-      AppState.hasServer = res == MessageId.OK.index || res == MessageId.DENIED.index;
+
+    Net.requestControl().then((final MessageId res){
+      AppState.hasServer = res == MessageId.OK || res == MessageId.DENIED;
+      AppState.hasControl = res == MessageId.OK;
+      AppState.notifier.update();
     });
   }
 
