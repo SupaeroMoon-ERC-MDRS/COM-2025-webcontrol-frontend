@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:supaeromoon_webcontrol/data/localization.dart';
 import 'package:supaeromoon_webcontrol/data/notifiers.dart';
 import 'package:supaeromoon_webcontrol/ui/controls/control_stack.dart';
+import 'package:supaeromoon_webcontrol/ui/indicators/power_indicator.dart';
 import 'package:supaeromoon_webcontrol/ui/theme.dart';
 
 abstract class AppState{
@@ -65,8 +66,7 @@ class _MainAppBarState extends State<MainAppBar> {
       ),
       child: Row(
         children: [
-          Container(color: Colors.red,child: Text("PH, Voltage"),),
-          Container(color: Colors.red,child: Text("PH, Current"),),
+          PowerIndicator(),
           const Spacer(),
           TextButton(
             onPressed: (){
