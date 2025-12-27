@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:supaeromoon_webcontrol/data/control_data.dart';
+import 'package:supaeromoon_webcontrol/data/telem_data.dart';
 import 'package:supaeromoon_webcontrol/net/message_id.dart';
 import 'package:supaeromoon_webcontrol/net/raspi_ip.dart';
 import 'package:supaeromoon_webcontrol/ui/screen.dart';
@@ -12,10 +13,10 @@ class PendingRequest {
   final int requestId;
   final MessageId type;
 
-  PendingRequest(this.type):requestId=nextId;
+  PendingRequest(this.type):requestId=genId;
 
   static int nextId = 0;
-  static int get genId => nextId++ & 0xFE;
+  static int get genId => nextId++ & 0x7F;
 }
 
 abstract class Net{
@@ -37,7 +38,14 @@ abstract class Net{
     channel!.stream.listen((final dynamic msg){
       if(msg is Uint8List && msg.length >= 2){
         final PendingRequest? req = _pendingRequests.remove(msg[1]);
-        if(req == null){ return; }
+        if(req == null){
+          if(msg[0] == MessageId.PUSH.index && msg.length == 6){
+            telemetryData.update((final TelemetryData data){
+              data.updateFromBytes(msg.sublist(2));
+            });
+          }
+          return;
+        }
         req.completer.complete(msg);
       }
     });
