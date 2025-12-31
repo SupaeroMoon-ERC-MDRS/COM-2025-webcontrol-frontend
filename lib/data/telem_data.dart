@@ -11,7 +11,7 @@ class TelemetryData {
     Uint8List bytes = Uint8List(4);
 
     final int currentRep = (current / 0.00030517578125).round(); // 0-20 range float to 16 bit ADC constant (20 / 65536)
-    final int voltageRep = (current / 0.00030517578125).round();
+    final int voltageRep = (voltage / 0.00030517578125).round();
 
     bytes[0] = currentRep & 0xFF;
     bytes[1] = (currentRep >> 8) & 0xFF;

@@ -1,13 +1,15 @@
+import 'package:supaeromoon_webcontrol/data/activity.dart';
 import 'package:supaeromoon_webcontrol/data/localization.dart';
 import 'package:supaeromoon_webcontrol/net/message_id.dart';
 import 'package:supaeromoon_webcontrol/net/net.dart';
 import 'package:supaeromoon_webcontrol/ui/screen.dart';
 
 abstract class LifeCycle{
-  static void preInit(){
+  static Future<void> preInit() async {
     Loc.setLanguage("en_EN");
 
-    if(!Net.init()){ // TODO some retry mechanism
+    Activity.init();
+    if(! await Net.init()){
       return;
     }
 

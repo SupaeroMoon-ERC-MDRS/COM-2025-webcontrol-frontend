@@ -30,25 +30,25 @@ class _PowerIndicatorState extends State<PowerIndicator> {
         children: [
           SizedBox(
             width: 100, 
-            child: Text("${representNumber(telemetryData.value.voltage, targetChar: 8)} V", style: ThemeManager.textStyle,)
+            child: Text("${representNumber(telemetryData.value.voltage, targetChar: 8)} V", style: ThemeManager.textStyle, textAlign: TextAlign.right,)
           ),
           SizedBox(
             width: 100, 
-            child: Text("${representNumber(telemetryData.value.current, targetChar: 8)} A", style: ThemeManager.textStyle,)
+            child: Text("${representNumber(telemetryData.value.current, targetChar: 8)} A", style: ThemeManager.textStyle, textAlign: TextAlign.right,)
           )
         ],
       )
       :
-      Row( // TODO if doesnt have control, must send get requests
+      Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           SizedBox(
             width: 100, 
-            child: Text("-- V", style: ThemeManager.textStyle,)
+            child: Text("-- V", style: ThemeManager.textStyle, textAlign: TextAlign.right,)
           ),
           SizedBox(
             width: 100, 
-            child: Text("-- A", style: ThemeManager.textStyle,)
+            child: Text("-- A", style: ThemeManager.textStyle, textAlign: TextAlign.right,)
           )
         ],
       );

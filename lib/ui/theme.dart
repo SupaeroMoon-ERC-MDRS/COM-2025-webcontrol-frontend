@@ -82,7 +82,7 @@ abstract class ThemeManager{
   static ThemeData? getThemeData(BuildContext context) => ThemeData.dark().copyWith(
     scaffoldBackgroundColor: globalStyle.bgColor,
     colorScheme: ColorScheme.fromSwatch(backgroundColor: globalStyle.bgColor),
-    textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme).apply(bodyColor: globalStyle.textColor),  // TODO use fixed size font instead
+    textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme).apply(bodyColor: globalStyle.textColor),
     canvasColor: globalStyle.bgColor,
     primaryColor: globalStyle.primaryColor,
     iconTheme: Theme.of(context).iconTheme.copyWith(color: globalStyle.primaryColor),

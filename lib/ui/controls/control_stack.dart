@@ -29,6 +29,8 @@ class ControlStack extends StatelessWidget {
                   data.lLeft = state.l;
                   data.lRight = state.r;
                   data.lTop = state.t;
+
+                  data.eStop = data.lLeft && data.rRight;
                 });
               },
             )
@@ -44,6 +46,8 @@ class ControlStack extends StatelessWidget {
                   data.rLeft = state.l;
                   data.rRight = state.r;
                   data.rTop = state.t;
+
+                  data.eStop = data.lLeft && data.rRight;
                 });
               },
             )

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:supaeromoon_webcontrol/data/localization.dart';
 import 'package:supaeromoon_webcontrol/data/notifiers.dart';
+import 'package:supaeromoon_webcontrol/ui/controls/backend_control.dart';
 import 'package:supaeromoon_webcontrol/ui/controls/control_stack.dart';
+import 'package:supaeromoon_webcontrol/ui/indicators/backend_state_indicator.dart';
 import 'package:supaeromoon_webcontrol/ui/indicators/power_indicator.dart';
 import 'package:supaeromoon_webcontrol/ui/theme.dart';
 
 abstract class AppState{
-  static bool isRotated = false;
+  static bool isRotated = true;
   static bool hasServer = false;
   static bool hasControl = false;
 
@@ -68,6 +70,9 @@ class _MainAppBarState extends State<MainAppBar> {
         children: [
           PowerIndicator(),
           const Spacer(),
+          BackendStateIndicator(),
+          BackendControl(),
+          // TODO stop backend button
           TextButton(
             onPressed: (){
               int index = Loc.languages.indexOf(Loc.selected) + 1;
@@ -78,15 +83,13 @@ class _MainAppBarState extends State<MainAppBar> {
               style: ThemeManager.subTitleStyle,
             )
           ),
-          Container(color: Colors.red,child: Text("PH, Backend active ind/toggle"),),
           IconButton(
             onPressed: (){
               AppState.isRotated = !AppState.isRotated;
               AppState.notifier.update();
             },
             icon: Icon(Icons.screen_rotation_rounded)
-          )
-          // horizontal/vertical toggle
+          ),
         ],
       ),
     );

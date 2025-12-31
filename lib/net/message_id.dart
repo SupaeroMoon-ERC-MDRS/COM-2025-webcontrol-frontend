@@ -3,6 +3,7 @@
 enum MessageId{
   OK,
   DENIED,
+  STOP,
   CERR,
   SERR,
   CTRL,

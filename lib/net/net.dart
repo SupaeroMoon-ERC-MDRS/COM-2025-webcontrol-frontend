@@ -25,11 +25,19 @@ abstract class Net{
   static bool isInitialized = false;
   static final Map<int, PendingRequest> _pendingRequests = {};
 
-  static bool init(){
+  static void _forward(){
+    if(AppState.hasControl){
+      send(controlData.value.toBytes());
+    }
+  }
+
+  static Future<bool> init() async {
     try{
       channel = WebSocketChannel.connect(Uri.parse(raspiIp));
+      await channel!.ready;
     }
     catch(ex){
+      Future.delayed(Duration(milliseconds: 100), init);
       channel = null;
       isInitialized = false;
       return false;
@@ -44,17 +52,25 @@ abstract class Net{
               data.updateFromBytes(msg.sublist(2));
             });
           }
+          else if(msg[0] == MessageId.BYE.index){
+            AppState.hasControl = false;
+            AppState.notifier.update();
+          }
           return;
         }
         req.completer.complete(msg);
       }
+    },
+    onError: (err) async {
+      await channel?.sink.close();
+      channel = null;
+      isInitialized = false;
+      _pendingRequests.clear();
+      controlData.removeListener(_forward);
+      Future.delayed(Duration(milliseconds: 100), init);
     });
 
-    controlData.addListener((){
-      if(AppState.hasControl || true){
-        send(controlData.value.toBytes());
-      }
-    });
+    controlData.addListener(_forward);
 
     isInitialized = true;
     return true;
@@ -71,7 +87,7 @@ abstract class Net{
   }
 
   static void handleNoResponse(final MessageId id){
-    // TODO
+    // TODO but maybe nothing
   }
 
   static Future<Uint8List?> _sendCmdWaitResponse(final MessageId id) async {
@@ -115,17 +131,27 @@ abstract class Net{
 
   static Future<bool> get() async {
     final Uint8List? bytes = await _sendCmdWaitResponse(MessageId.GET);
-    if(bytes == null || bytes.length < 2){
+    if(bytes == null || bytes.length <= 2){
       return false;
     }
 
-    // TODO process bytes.sublist(2) as telemetry
+    telemetryData.update((final TelemetryData data){
+      data.updateFromBytes(bytes.sublist(2));
+    });
 
     return true;
   }
 
   static Future<MessageId> requestControl() async {
     final Uint8List? bytes = await _sendCmdWaitResponse(MessageId.CTRL);
+    if(bytes == null || bytes.isEmpty){
+      return MessageId.CERR;
+    }
+    return MessageId.values[bytes[0]];
+  }
+
+  static Future<MessageId> stopBackend() async {
+    final Uint8List? bytes = await _sendCmdWaitResponse(MessageId.STOP);
     if(bytes == null || bytes.isEmpty){
       return MessageId.CERR;
     }
