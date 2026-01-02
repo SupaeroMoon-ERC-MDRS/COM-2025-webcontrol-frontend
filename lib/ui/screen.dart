@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supaeromoon_webcontrol/data/localization.dart';
 import 'package:supaeromoon_webcontrol/data/notifiers.dart';
+import 'package:supaeromoon_webcontrol/net/net.dart';
 import 'package:supaeromoon_webcontrol/ui/controls/backend_control.dart';
 import 'package:supaeromoon_webcontrol/ui/controls/control_stack.dart';
 import 'package:supaeromoon_webcontrol/ui/indicators/backend_state_indicator.dart';
@@ -72,7 +73,14 @@ class _MainAppBarState extends State<MainAppBar> {
           const Spacer(),
           BackendStateIndicator(),
           BackendControl(),
-          // TODO stop backend button
+          IconButton(
+            onPressed: (){
+              Net.stopBackend();
+              AppState.hasControl = false;
+              AppState.notifier.update();
+            },
+            icon: Icon(Icons.stop)
+          ),
           TextButton(
             onPressed: (){
               int index = Loc.languages.indexOf(Loc.selected) + 1;
