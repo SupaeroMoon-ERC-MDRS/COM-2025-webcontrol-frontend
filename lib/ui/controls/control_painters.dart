@@ -182,6 +182,8 @@ class _StickState extends State<Stick> {
       child: GestureDetector(
         onPanUpdate: (details) => _actionAt(details.localPosition - widget.size.center(Offset.zero), true),
         onPanEnd: (details) => _actionAt(details.localPosition - widget.size.center(Offset.zero), false),
+        onTapDown: (details) => _actionAt(details.localPosition - widget.size.center(Offset.zero), true),
+        onTapUp: (details) => _actionAt(details.localPosition - widget.size.center(Offset.zero), false),
         child: CustomPaint(
           painter: _StickPainter(state: stickState),
         ),
@@ -222,4 +224,132 @@ class _StickPainter extends CustomPainter {
 
   @override
   bool shouldRebuildSemantics(_StickPainter oldDelegate) => false;
+}
+
+/////////////////////////////////////////////////////////////////////////
+
+class ShoulderState{
+  bool button = false;
+  int trigger = 0;
+
+  bool get isTriggerZero => trigger == 0;
+}
+
+class Shoulder extends StatefulWidget {
+  const Shoulder({super.key, required this.size, required this.onUpdate});
+
+  final Size size;
+  final void Function(ShoulderState) onUpdate;
+
+  @override
+  State<Shoulder> createState() => _ShoulderState();
+}
+
+class _ShoulderState extends State<Shoulder> {
+  final ShoulderState shoulderState = ShoulderState();
+
+  void _panAt(final Offset pos, final bool set){
+    if(set){
+      if(pos.dy < 3 * widget.size.height / 4 + widget.size.width / 10){
+        shoulderState.trigger = ((pos.dy - widget.size.width / 5) / (3 * widget.size.height / 4 - widget.size.width / 5) * 255).toInt().clamp(0, 255);
+      }
+    }
+    else{
+      shoulderState.button = false;
+      shoulderState.trigger = 0;
+    }
+    widget.onUpdate(shoulderState);
+    setState(() {});
+  }
+
+  void _tapAt(final Offset pos, final bool set){
+    if(set){
+      if(pos.dy < 3 * widget.size.height / 4 + widget.size.width / 10){
+        shoulderState.trigger = ((pos.dy - widget.size.width / 5) / (3 * widget.size.height / 4) * 255).toInt().clamp(0, 255);
+      }
+      else if(3 * widget.size.height / 4 + widget.size.width / 5 < pos.dy && pos.dy < 3 * widget.size.height / 4 + 2 * widget.size.width / 5){
+        shoulderState.button = set;
+      }
+    }
+    else{
+      shoulderState.button = false;
+      shoulderState.trigger = 0;
+    }
+    widget.onUpdate(shoulderState);
+    setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox.fromSize(
+      size: widget.size,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(widget.size.width / 10),
+          color: ThemeManager.globalStyle.secondaryColor
+        ),
+        child: GestureDetector(
+          onPanUpdate: (details) => _panAt(details.localPosition, true),
+          onPanEnd: (details) => _panAt(details.localPosition, false),
+          onTapDown: (details) => _tapAt(details.localPosition, true),
+          onTapUp: (details) => _tapAt(details.localPosition, false),
+          child: CustomPaint(
+            painter: _ShoulderPainter(state: shoulderState),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _ShoulderPainter extends CustomPainter {
+
+  final ShoulderState state;
+
+  _ShoulderPainter({required this.state});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final Paint bgPaint = Paint()..color = ThemeManager.globalStyle.bgColor;
+    final Paint activePaint = Paint()..color = ThemeManager.globalStyle.primaryColor;
+
+    final Offset center = size.center(Offset.zero);
+    final double threefourthsdim = 3 * size.height / 4;
+    final double fifthdim = size.width / 5;
+    final double tenthdim = size.width / 10;
+    final Radius radius = Radius.circular(tenthdim);
+
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(Rect.fromLTRB(center.dx - tenthdim, fifthdim, center.dx + tenthdim, threefourthsdim), radius), bgPaint..style = PaintingStyle.fill
+    );
+
+    if(state.isTriggerZero){
+      canvas.drawRRect(
+        RRect.fromRectAndRadius(Rect.fromLTRB(center.dx - 1.5 * fifthdim, tenthdim, center.dx + 1.5 * fifthdim, tenthdim + fifthdim), radius), bgPaint..style = PaintingStyle.fill
+      );
+    }
+    else{
+      final double yOffset = (state.trigger / 255 * (threefourthsdim)).clamp(0, threefourthsdim - fifthdim);
+      canvas.drawRRect(
+        RRect.fromRectAndRadius(Rect.fromLTRB(center.dx - 1.5 * fifthdim, tenthdim + yOffset, center.dx + 1.5 * fifthdim, tenthdim + fifthdim + yOffset), radius), activePaint..style = PaintingStyle.fill
+      );
+    }
+
+    if(state.button){
+      canvas.drawRRect(
+        RRect.fromRectAndRadius(Rect.fromLTRB(center.dx - 1.5 * fifthdim, threefourthsdim + tenthdim, center.dx + 1.5 * fifthdim, threefourthsdim + tenthdim + fifthdim), radius), activePaint..style = PaintingStyle.fill
+      );
+    }
+    else{
+      canvas.drawRRect(
+        RRect.fromRectAndRadius(Rect.fromLTRB(center.dx - 1.5 * fifthdim, threefourthsdim + tenthdim, center.dx + 1.5 * fifthdim, threefourthsdim + tenthdim + fifthdim), radius), bgPaint..style = PaintingStyle.fill
+      );
+    }
+  }
+
+  @override
+  bool shouldRepaint(_ShoulderPainter oldDelegate) => false;
+
+  @override
+  bool shouldRebuildSemantics(_ShoulderPainter oldDelegate) => false;
 }

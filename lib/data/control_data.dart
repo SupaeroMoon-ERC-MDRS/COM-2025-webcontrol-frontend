@@ -74,22 +74,22 @@ class ControlData {
 
   void pprint(){
     // ignore: avoid_print
-    print( """LT $lTop\n
-              LB $lBottom\n
-              LR $lRight\n
-              LL $lLeft\n
-              RT $rTop\n
-              RB $rBottom\n
-              RR $rRight\n
-              RL $rLeft\n
-              LS $lShoulder\n
-              RS $rShoulder\n
-              ES $eStop\n
-              LTrig $leftTrigger\n
-              RTrig $rightTrigger\n
-              TLX $thumbLeftX\n
-              TLY $thumbLeftY\n
-              TRX $thumbRightX\n
+    print( """LT $lTop
+              LB $lBottom
+              LR $lRight
+              LL $lLeft
+              RT $rTop
+              RB $rBottom
+              RR $rRight
+              RL $rLeft
+              LS $lShoulder
+              RS $rShoulder
+              ES $eStop
+              LTrig $leftTrigger
+              RTrig $rightTrigger
+              TLX $thumbLeftX
+              TLY $thumbLeftY
+              TRX $thumbRightX
               TRY $thumbRightY""");
   }
 }

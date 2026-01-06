@@ -13,6 +13,7 @@ class ControlStack extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size button4Size = Size.square(size.height / 5);
+    final Size shoulderSize = Size(size.width / 12, size.height / 4);
     return SizedBox.fromSize(
       size: size,
       child: Stack(
@@ -79,14 +80,30 @@ class ControlStack extends StatelessWidget {
             )
           ),
           Positioned(
-            top: size.height / 4,
-            left: size.width / 4,
-            child: Container(color: Colors.red, child: Text("LSandT"),)
+            top: size.height / 4 - shoulderSize.height / 2,
+            left: size.width / 3 - shoulderSize.width / 2,
+            child: Shoulder(
+              size: shoulderSize,
+              onUpdate: (final ShoulderState state){
+                controlData.update((final ControlData data){
+                  data.lShoulder = state.button;
+                  data.leftTrigger = state.trigger;
+                });
+              }
+            )
           ),
           Positioned(
-            top: size.height / 4,
-            left: 3 * size.width / 4,
-            child: Container(color: Colors.red, child: Text("RSandT"),)
+            top: size.height / 4 - shoulderSize.height / 2,
+            left: 2 * size.width / 3 - shoulderSize.width / 2,
+            child: Shoulder(
+              size: shoulderSize,
+              onUpdate: (final ShoulderState state){
+                controlData.update((final ControlData data){
+                  data.rShoulder = state.button;
+                  data.rightTrigger = state.trigger;
+                });
+              }
+            )
           ),
         ],
       ),
