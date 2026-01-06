@@ -34,7 +34,7 @@ class _MainAppState extends State<MainApp> {
     rebuildAllChildren(context);
     return MaterialApp(
       navigatorKey: mainWindowNavigatorKey,
-      title: "Supaeromoon WebControl",
+      title: Loc.get("title"),
       debugShowCheckedModeBanner: false,
       theme: ThemeManager.getThemeData(context),
       home: Scaffold(

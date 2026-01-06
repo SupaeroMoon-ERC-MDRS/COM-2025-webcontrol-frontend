@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:supaeromoon_webcontrol/data/localization.dart';
 import 'package:supaeromoon_webcontrol/ui/screen.dart';
 import 'package:supaeromoon_webcontrol/ui/theme.dart';
 
 const Map<bool, Map<bool, String>> _status = {
   false: {
-    true: "Backend unavailable",
-    false: "Backend unavailable",
+    true: "backend_unavailable",
+    false: "backend_unavailable",
   },
   true: {
-    true: "Control Active",
-    false: "Busy"
+    true: "in_control",
+    false: "not_in_control"
   }
 };
 
@@ -33,7 +34,7 @@ class _BackendStateIndicatorState extends State<BackendStateIndicator> {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: ThemeManager.globalStyle.padding),
-      child: Text(_status[AppState.hasServer]![AppState.hasControl]!, style: ThemeManager.textStyle,),
+      child: Text(Loc.get(_status[AppState.hasServer]![AppState.hasControl]!), style: ThemeManager.textStyle,),
     );
   }
 

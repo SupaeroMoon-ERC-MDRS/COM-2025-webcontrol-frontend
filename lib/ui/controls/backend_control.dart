@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:supaeromoon_webcontrol/data/localization.dart';
 import 'package:supaeromoon_webcontrol/net/message_id.dart';
 import 'package:supaeromoon_webcontrol/net/net.dart';
 import 'package:supaeromoon_webcontrol/ui/screen.dart';
 import 'package:supaeromoon_webcontrol/ui/theme.dart';
 
 const Map<bool, String> _status = {
-  false: "Request Control",
-  true: "Release Control"
+  false: "request_control",
+  true: "release_control"
 };
 
 class BackendControl extends StatefulWidget {
@@ -35,7 +36,7 @@ class _BackendControlState extends State<BackendControl> {
           });
         }
       },
-      child: Text(_status[AppState.hasControl]!, style: ThemeManager.textStyle,),
+      child: Text(Loc.get(_status[AppState.hasControl]!), style: ThemeManager.textStyle,),
     );
   }
 }

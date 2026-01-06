@@ -113,11 +113,11 @@ class ControlView extends StatefulWidget {
 }
 
 class _ControlViewState extends State<ControlView> {
-  final SlidingSwitchController<bool> _slider = SlidingSwitchController<bool>(
-    items: [false, true],
-    names: ["Controller", "Simplified"],
+  final SlidingSwitchController<int> _slider = SlidingSwitchController<int>(
+    items: [0, 1], // TODO servo calibration but not for MDRS
+    names: ["controller_controls", "simplified_controls"], // TODO servo calibration but not for MDRS
     onChanged: (final int i){},
-    active: false,
+    active: 0,
     notifier: BlankNotifier(null)
   );
 
@@ -142,10 +142,13 @@ class _ControlViewState extends State<ControlView> {
         Expanded(
           child: LayoutBuilder(
             builder:(context, constraints) {
-              return _slider.active ?
-              Container()
+              return _slider.active == 0 ?
+              ControlStack(size: constraints.biggest)
               :
-              ControlStack(size: constraints.biggest, orientation: AppState.isRotated,);
+              _slider.active == 1 ?
+              SimplifiedControlStack(size: constraints.biggest)
+              :
+              Container(); // TODO servo calibration but not for MDRS
             },
           ),
         ),

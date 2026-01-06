@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supaeromoon_webcontrol/data/localization.dart';
 import 'package:supaeromoon_webcontrol/data/notifiers.dart';
 import 'package:supaeromoon_webcontrol/ui/theme.dart';
 
@@ -70,7 +71,7 @@ class _SlidingSwitchState extends State<SlidingSwitch> {
                       setState(() {});
                     }),
                     child: Text(
-                      widget.controller.names[i],
+                      Loc.get(widget.controller.names[i]),
                       style: ThemeManager.textStyle,
                     ),
                   ),
