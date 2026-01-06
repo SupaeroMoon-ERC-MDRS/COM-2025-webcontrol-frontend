@@ -30,7 +30,7 @@ final Map<String, String> fr_FR = {
   "simplified_controls": "Simplifié",
   "switch_arm_movement_mode": "Changer mode Bras/Déplacement WIP",
   "toggle_grip": "Actionner la pince WIP",
-  "move_arm_in_view": "Bras en vue WIP",
+  "move_arm_in_view": "Bouger le bras en vue WIP",
   "move_arm_above_sample_container": "Bras au-dessus du conteneur WIP",
   "soft_stop": "Arrêt progressif",
   "emergency_stop": "Arrêt d'urgence"
