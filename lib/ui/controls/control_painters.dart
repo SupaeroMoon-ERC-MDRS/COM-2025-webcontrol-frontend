@@ -250,8 +250,8 @@ class _ShoulderState extends State<Shoulder> {
 
   void _panAt(final Offset pos, final bool set){
     if(set){
-      if(pos.dy < 3 * widget.size.height / 4 + widget.size.width / 10){
-        shoulderState.trigger = ((pos.dy - widget.size.width / 5) / (3 * widget.size.height / 4 - widget.size.width / 5) * 255).toInt().clamp(0, 255);
+      if(pos.dy < 3 * widget.size.height / 4){
+        shoulderState.trigger = ((pos.dy - widget.size.width / 5) / (3 * widget.size.height / 4 - 3 * widget.size.width / 10) * 255).toInt().clamp(0, 255);
       }
     }
     else{
@@ -264,10 +264,10 @@ class _ShoulderState extends State<Shoulder> {
 
   void _tapAt(final Offset pos, final bool set){
     if(set){
-      if(pos.dy < 3 * widget.size.height / 4 + widget.size.width / 10){
-        shoulderState.trigger = ((pos.dy - widget.size.width / 5) / (3 * widget.size.height / 4) * 255).toInt().clamp(0, 255);
+      if(pos.dy < 3 * widget.size.height / 4){
+        shoulderState.trigger = ((pos.dy - widget.size.width / 5) / (3 * widget.size.height / 4 - 3 * widget.size.width / 10) * 255).toInt().clamp(0, 255);
       }
-      else if(3 * widget.size.height / 4 + widget.size.width / 5 < pos.dy && pos.dy < 3 * widget.size.height / 4 + 2 * widget.size.width / 5){
+      else if(3 * widget.size.height / 4 < pos.dy && pos.dy < 3 * widget.size.height / 4 + 2 * widget.size.width / 5){
         shoulderState.button = set;
       }
     }
@@ -320,7 +320,7 @@ class _ShoulderPainter extends CustomPainter {
     final Radius radius = Radius.circular(tenthdim);
 
     canvas.drawRRect(
-      RRect.fromRectAndRadius(Rect.fromLTRB(center.dx - tenthdim, fifthdim, center.dx + tenthdim, threefourthsdim), radius), bgPaint..style = PaintingStyle.fill
+      RRect.fromRectAndRadius(Rect.fromLTRB(center.dx - tenthdim, fifthdim, center.dx + tenthdim, threefourthsdim - tenthdim), radius), bgPaint..style = PaintingStyle.fill
     );
 
     if(state.isTriggerZero){
@@ -329,7 +329,7 @@ class _ShoulderPainter extends CustomPainter {
       );
     }
     else{
-      final double yOffset = (state.trigger / 255 * (threefourthsdim)).clamp(0, threefourthsdim - fifthdim);
+      final double yOffset = (state.trigger / 255 * (threefourthsdim - fifthdim - tenthdim)).clamp(0, threefourthsdim - fifthdim - tenthdim);
       canvas.drawRRect(
         RRect.fromRectAndRadius(Rect.fromLTRB(center.dx - 1.5 * fifthdim, tenthdim + yOffset, center.dx + 1.5 * fifthdim, tenthdim + fifthdim + yOffset), radius), activePaint..style = PaintingStyle.fill
       );
@@ -337,12 +337,12 @@ class _ShoulderPainter extends CustomPainter {
 
     if(state.button){
       canvas.drawRRect(
-        RRect.fromRectAndRadius(Rect.fromLTRB(center.dx - 1.5 * fifthdim, threefourthsdim + tenthdim, center.dx + 1.5 * fifthdim, threefourthsdim + tenthdim + fifthdim), radius), activePaint..style = PaintingStyle.fill
+        RRect.fromRectAndRadius(Rect.fromLTRB(center.dx - 1.5 * fifthdim, threefourthsdim, center.dx + 1.5 * fifthdim, threefourthsdim + fifthdim), radius), activePaint..style = PaintingStyle.fill
       );
     }
     else{
       canvas.drawRRect(
-        RRect.fromRectAndRadius(Rect.fromLTRB(center.dx - 1.5 * fifthdim, threefourthsdim + tenthdim, center.dx + 1.5 * fifthdim, threefourthsdim + tenthdim + fifthdim), radius), bgPaint..style = PaintingStyle.fill
+        RRect.fromRectAndRadius(Rect.fromLTRB(center.dx - 1.5 * fifthdim, threefourthsdim, center.dx + 1.5 * fifthdim, threefourthsdim + fifthdim), radius), bgPaint..style = PaintingStyle.fill
       );
     }
   }

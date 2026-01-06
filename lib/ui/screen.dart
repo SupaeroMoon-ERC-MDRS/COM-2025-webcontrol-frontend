@@ -4,6 +4,7 @@ import 'package:supaeromoon_webcontrol/data/notifiers.dart';
 import 'package:supaeromoon_webcontrol/net/net.dart';
 import 'package:supaeromoon_webcontrol/ui/controls/backend_control.dart';
 import 'package:supaeromoon_webcontrol/ui/controls/control_stack.dart';
+import 'package:supaeromoon_webcontrol/ui/controls/sliding_switch.dart';
 import 'package:supaeromoon_webcontrol/ui/indicators/backend_state_indicator.dart';
 import 'package:supaeromoon_webcontrol/ui/indicators/power_indicator.dart';
 import 'package:supaeromoon_webcontrol/ui/theme.dart';
@@ -112,13 +113,49 @@ class ControlView extends StatefulWidget {
 }
 
 class _ControlViewState extends State<ControlView> {
+  final SlidingSwitchController<bool> _slider = SlidingSwitchController<bool>(
+    items: [false, true],
+    names: ["Controller", "Simplified"],
+    onChanged: (final int i){},
+    active: false,
+    notifier: BlankNotifier(null)
+  );
+
+  @override
+  void initState() {
+    _slider.notifier!.addListener(_update);
+    super.initState();
+  }
+
+  void _update() => setState(() {});
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder:(context, constraints) {
-        return ControlStack(size: constraints.biggest, orientation: AppState.isRotated,);
-      },
+    return Column(
+      children: [
+        SizedBox(
+          height: 30,
+          child: SlidingSwitch(
+            controller: _slider
+          ),
+        ),
+        Expanded(
+          child: LayoutBuilder(
+            builder:(context, constraints) {
+              return _slider.active ?
+              Container()
+              :
+              ControlStack(size: constraints.biggest, orientation: AppState.isRotated,);
+            },
+          ),
+        ),
+      ],
     );
+  }
+
+  @override
+  void dispose() {
+    _slider.notifier!.removeListener(_update);
+    super.dispose();
   }
 }
