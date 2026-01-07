@@ -11,10 +11,11 @@ class Button4State{
 }
 
 class Button4 extends StatefulWidget {
-  const Button4({super.key, required this.size, required this.onUpdate});
+  const Button4({super.key, required this.size, required this.onUpdate, required this.init});
 
   final Size size;
   final void Function(Button4State) onUpdate;
+  final void Function(Button4State) init;
 
   @override
   State<Button4> createState() => _Button4State();
@@ -22,6 +23,12 @@ class Button4 extends StatefulWidget {
 
 class _Button4State extends State<Button4> {
   final Button4State buttonState = Button4State();
+
+  @override
+  void initState() {
+    widget.init(buttonState);
+    super.initState();
+  }
 
   void _actionAt(final Offset pos, final bool set){
     final int dir = (pos.direction * 2 / pi).round();
@@ -149,10 +156,11 @@ class StickState{
 }
 
 class Stick extends StatefulWidget {
-  const Stick({super.key, required this.size, required this.onUpdate});
+  const Stick({super.key, required this.size, required this.onUpdate, required this.init});
 
   final Size size;
   final void Function(StickState) onUpdate;
+  final void Function(StickState) init;
 
   @override
   State<Stick> createState() => _StickState();
@@ -160,6 +168,12 @@ class Stick extends StatefulWidget {
 
 class _StickState extends State<Stick> {
   final StickState stickState = StickState();
+
+  @override
+  void initState() {
+    widget.init(stickState);
+    super.initState();
+  }
 
   void _actionAt(final Offset pos, final bool set){
     
@@ -236,10 +250,11 @@ class ShoulderState{
 }
 
 class Shoulder extends StatefulWidget {
-  const Shoulder({super.key, required this.size, required this.onUpdate});
+  const Shoulder({super.key, required this.size, required this.onUpdate, required this.init});
 
   final Size size;
   final void Function(ShoulderState) onUpdate;
+  final void Function(ShoulderState) init;
 
   @override
   State<Shoulder> createState() => _ShoulderState();
@@ -247,6 +262,12 @@ class Shoulder extends StatefulWidget {
 
 class _ShoulderState extends State<Shoulder> {
   final ShoulderState shoulderState = ShoulderState();
+
+  @override
+  void initState() {
+    widget.init(shoulderState);
+    super.initState();
+  }
 
   void _panAt(final Offset pos, final bool set){
     if(set){

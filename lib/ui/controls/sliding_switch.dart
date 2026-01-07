@@ -43,7 +43,7 @@ class _SlidingSwitchState extends State<SlidingSwitch> {
             border: Border.symmetric(horizontal: BorderSide(width: 1, color: ThemeManager.globalStyle.primaryColor))
           ),
           width: widget.controller.items.length * elementWidth,
-          height: 30,
+          height: 40,
           child: Stack(
             fit: StackFit.expand,
             alignment: AlignmentDirectional.centerStart,
@@ -54,14 +54,14 @@ class _SlidingSwitchState extends State<SlidingSwitch> {
                 curve: Curves.easeInOutCubic,
                 child: Container(
                   width: elementWidth,
-                  height: 30 - 2 * 1,
+                  height: 40 - 2 * 1,
                   color: ThemeManager.globalStyle.primaryColor,
               )),
         
               for(int i = 0; i < widget.controller.items.length; i++)
                 Positioned(left: i * elementWidth, child: SizedBox(
                   width: elementWidth,
-                  height: 30 - 2 * 1,
+                  height: 40 - 2 * 1,
                   child: TextButton(
                     onPressed: (() {
                       _activeIdx = i;

@@ -16,7 +16,11 @@ final Map<String, String> en_EN = {
   "move_arm_in_view": "Arm in view WIP",
   "move_arm_above_sample_container": "Arm above container WIP",
   "soft_stop": "Soft stop",
-  "emergency_stop": "Emergency stop"
+  "emergency_stop": "Emergency stop",
+  "confirm_estop_title": "Confirm Emergency stop dialog",
+  "confirm_estop_body": "Confirm Emergency stop?",
+  "cancel": "Cancel",
+  "confirm": "Confirm",
 };
 
 final Map<String, String> fr_FR = {
@@ -33,7 +37,11 @@ final Map<String, String> fr_FR = {
   "move_arm_in_view": "Bouger le bras en vue WIP",
   "move_arm_above_sample_container": "Bras au-dessus du conteneur WIP",
   "soft_stop": "Arrêt progressif",
-  "emergency_stop": "Arrêt d'urgence"
+  "emergency_stop": "Arrêt d'urgence",
+  "confirm_estop_title": "Confirmation de l'arrêt d'urgence",
+  "confirm_estop_body": "Confirmer l'arrêt d'urgence?",
+  "cancel": "Annuler",
+  "confirm": "Confirmer",
 };
 
 abstract class Loc{

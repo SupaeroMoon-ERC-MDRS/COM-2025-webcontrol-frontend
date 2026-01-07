@@ -23,6 +23,8 @@ class ControlData {
   int thumbRightX = 128;
   int thumbRightY = 128;
 
+  bool get isEstop => eStop || (lLeft && rRight);
+
   Uint8List toBytes(){
     final Uint8List bytes = Uint8List(8);
 

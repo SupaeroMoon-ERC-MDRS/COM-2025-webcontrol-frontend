@@ -26,7 +26,8 @@ abstract class Net{
   static final Map<int, PendingRequest> _pendingRequests = {};
 
   static void _forward(){
-    if(AppState.hasControl){
+    if(controlData.value.isEstop || AppState.hasControl){
+      // meaning if an other webcontrol client is in control (and not the main remote) then an other webcontrol client is allowed to send an estop message and only that
       send(controlData.value.toBytes());
     }
   }
