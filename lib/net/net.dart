@@ -34,15 +34,19 @@ abstract class Net{
 
   static Future<bool> init() async {
     try{
+      print("Attempting to conntect to $raspiIp");
       channel = WebSocketChannel.connect(Uri.parse(raspiIp));
       await channel!.ready;
     }
     catch(ex){
+      print("Init failed ${ex.toString()}, reattempting...");
       Future.delayed(Duration(milliseconds: 100), init);
       channel = null;
       isInitialized = false;
       return false;
     }
+
+    print("Conntected to $raspiIp");
 
     channel!.stream.listen((final dynamic msg){
       if(msg is Uint8List && msg.length >= 2){
