@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:supaeromoon_webcontrol/data/notifiers.dart';
 
 class Style{
@@ -82,7 +81,8 @@ abstract class ThemeManager{
   static ThemeData? getThemeData(BuildContext context) => ThemeData.dark().copyWith(
     scaffoldBackgroundColor: globalStyle.bgColor,
     colorScheme: ColorScheme.fromSwatch(backgroundColor: globalStyle.bgColor),
-    textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme).apply(bodyColor: globalStyle.textColor),
+    textTheme: ThemeData.dark().textTheme.apply(fontFamily: 'Roboto'),
+    primaryTextTheme: ThemeData.dark().textTheme.apply(fontFamily: 'Roboto'),
     canvasColor: globalStyle.bgColor,
     primaryColor: globalStyle.primaryColor,
     iconTheme: Theme.of(context).iconTheme.copyWith(color: globalStyle.primaryColor),

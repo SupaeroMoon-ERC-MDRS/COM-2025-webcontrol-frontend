@@ -24,13 +24,14 @@ class _PowerIndicatorState extends State<PowerIndicator> {
 
   @override
   Widget build(BuildContext context) {
+    print("Voltage raw: ${telemetryData.value.voltage} , shown ${representNumber(telemetryData.value.voltage, targetChar: 7)}");
     return AppState.hasServer ? 
       Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           SizedBox(
             width: 100, 
-            child: Text("${representNumber(telemetryData.value.voltage, targetChar: 8)} V", style: ThemeManager.textStyle, textAlign: TextAlign.right,)
+            child: Text("${representNumber(telemetryData.value.voltage, targetChar: 7)} V", style: ThemeManager.textStyle, textAlign: TextAlign.right,)
           ),
           SizedBox(
             width: 100, 

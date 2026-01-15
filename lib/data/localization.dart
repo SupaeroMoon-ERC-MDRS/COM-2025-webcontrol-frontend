@@ -66,12 +66,6 @@ abstract class Loc{
   }
 
   static String get(final String label){
-    // return _localization[_lang]?[label] ?? label;
-    final String? res = _localization[_lang]?[label]; // TODO until loc is established
-    if(res == null){
-      print("Missing localization for label $label and lang $_lang");
-      return label;
-    }
-    return res;
+    return _localization[_lang]?[label] ?? label;
   }
 }

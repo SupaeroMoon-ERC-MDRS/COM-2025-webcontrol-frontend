@@ -92,13 +92,6 @@ class _MainAppBarState extends State<MainAppBar> {
               style: ThemeManager.subTitleStyle,
             )
           ),
-          /*IconButton( // TODO maybe remove?
-            onPressed: (){
-              AppState.isRotated = !AppState.isRotated;
-              AppState.notifier.update();
-            },
-            icon: Icon(Icons.screen_rotation_rounded)
-          ),*/
         ],
       ),
     );
