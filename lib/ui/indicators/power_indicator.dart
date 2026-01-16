@@ -24,18 +24,31 @@ class _PowerIndicatorState extends State<PowerIndicator> {
 
   @override
   Widget build(BuildContext context) {
-    print("Voltage raw: ${telemetryData.value.voltage} , shown ${representNumber(telemetryData.value.voltage, targetChar: 7)}");
     return AppState.hasServer ? 
       Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          SizedBox(
+          Container(
+            padding: EdgeInsets.all(ThemeManager.globalStyle.padding),
             width: 100, 
-            child: Text("${representNumber(telemetryData.value.voltage, targetChar: 7)} V", style: ThemeManager.textStyle, textAlign: TextAlign.right,)
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(representNumber(telemetryData.value.voltage, targetChar: 8), style: ThemeManager.textStyle),
+                Text(" V", style: ThemeManager.textStyle),
+              ],
+            )
           ),
-          SizedBox(
+          Container(
+            padding: EdgeInsets.all(ThemeManager.globalStyle.padding),
             width: 100, 
-            child: Text("${representNumber(telemetryData.value.current, targetChar: 8)} A", style: ThemeManager.textStyle, textAlign: TextAlign.right,)
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(representNumber(telemetryData.value.current, targetChar: 8), style: ThemeManager.textStyle),
+                Text(" A", style: ThemeManager.textStyle),
+              ],
+            )
           )
         ],
       )
