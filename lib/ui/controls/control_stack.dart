@@ -163,27 +163,26 @@ class SimplifiedControlStack extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           Positioned(
-            top: 1 * size.height / 7 - size.height / 21, left: 0,
+            top: 1 * size.height / 6 - size.height / 21, left: 0,
             child: SizedBox(
               width: 4 * size.width / 9,
               child: TextButton(
-                onPressed: (){},
+                onPressed: (){
+                  controlData.update((final ControlData data){
+                    data.lShoulder = true;
+                    data.rShoulder = true;
+                  });
+                  controlData.update((final ControlData data){
+                    data.lShoulder = false;
+                    data.rShoulder = false;
+                  });
+                },
                 child: Text(Loc.get("switch_arm_movement_mode"), style: ThemeManager.textStyle,),
               ),
             )
           ),
           Positioned(
-            top: 2 * size.height / 7 - size.height / 21, left: 0,
-            child: SizedBox(
-              width: 4 * size.width / 9,
-              child: TextButton(
-                onPressed: (){},
-                child: Text(Loc.get("toggle_grip"), style: ThemeManager.textStyle,),
-              ),
-            )
-          ),
-          Positioned(
-            top: 3 * size.height / 7 - size.height / 21, left: 0,
+            top: 2 * size.height / 6 - size.height / 21, left: 0,
             child: SizedBox(
               width: 4 * size.width / 9,
               child: TextButton(
@@ -193,7 +192,7 @@ class SimplifiedControlStack extends StatelessWidget {
             )
           ),
           Positioned(
-            top: 4 * size.height / 7 - size.height / 21, left: 0,
+            top: 3 * size.height / 6 - size.height / 21, left: 0,
             child: SizedBox(
               width: 4 * size.width / 9,
               child: TextButton(
@@ -203,7 +202,7 @@ class SimplifiedControlStack extends StatelessWidget {
             )
           ),
           Positioned(
-            top: 5 * size.height / 7 - size.height / 21, left: 0,
+            top: 4 * size.height / 6 - size.height / 21, left: 0,
             child: SizedBox(
               width: 4 * size.width / 9,
               child: TextButton(
@@ -217,7 +216,7 @@ class SimplifiedControlStack extends StatelessWidget {
             )
           ),
           Positioned(
-            top: 6 * size.height / 7 - size.height / 21, left: 0,
+            top: 5 * size.height / 6 - size.height / 21, left: 0,
             child: SizedBox(
               width: 4 * size.width / 9,
               child: TextButton(
@@ -260,7 +259,7 @@ class SimplifiedControlStack extends StatelessWidget {
           ),
           ///////////////////////////////////////////////////////////////////////////
           Positioned(
-            top: size.height / 2 - stickSize.height / 2,
+            top: size.height / 3 - stickSize.height / 2,
             left: 3 * size.width / 4 - stickSize.width / 2,
             child: Stick(
               size: stickSize,
@@ -280,6 +279,74 @@ class SimplifiedControlStack extends StatelessWidget {
                   data.rRight = false;
                 });
               }
+            )
+          ),
+          Positioned(
+            top: 4 * size.height / 6, left: 2 * size.width / 4,
+            child: SizedBox(
+              width: size.width / 4,
+              child: TextButton(
+                onPressed: (){
+                  controlData.update((final ControlData data){
+                    data.lLeft = true;
+                  });
+                  controlData.update((final ControlData data){
+                    data.lLeft = false;
+                  });
+                },
+                child: Text(Loc.get("arm_base_left"), style: ThemeManager.textStyle,)
+              ),
+            )
+          ),
+          Positioned(
+            top: 4 * size.height / 6, left: 3 * size.width / 4,
+            child: SizedBox(
+              width: size.width / 4,
+              child: TextButton(
+                onPressed: (){
+                  controlData.update((final ControlData data){
+                    data.lRight = true;
+                  });
+                  controlData.update((final ControlData data){
+                    data.lRight = false;
+                  });
+                },
+                child: Text(Loc.get("arm_base_right"), style: ThemeManager.textStyle,)
+              ),
+            )
+          ),
+          Positioned(
+            top: 5 * size.height / 6, left: 2 * size.width / 4,
+            child: SizedBox(
+              width: size.width / 4,
+              child: TextButton(
+                onPressed: (){
+                  controlData.update((final ControlData data){
+                    data.lTop = true;
+                  });
+                  controlData.update((final ControlData data){
+                    data.lTop = false;
+                  });
+                },
+                child: Text(Loc.get("grip_close"), style: ThemeManager.textStyle,)
+              ),
+            )
+          ),
+          Positioned(
+            top: 5 * size.height / 6, left: 3 * size.width / 4,
+            child: SizedBox(
+              width: size.width / 4,
+              child: TextButton(
+                onPressed: (){
+                  controlData.update((final ControlData data){
+                    data.lBottom = true;
+                  });
+                  controlData.update((final ControlData data){
+                    data.lBottom = false;
+                  });
+                },
+                child: Text(Loc.get("grip_open"), style: ThemeManager.textStyle,)
+              ),
             )
           ),
         ],
