@@ -167,15 +167,19 @@ class SimplifiedControlStack extends StatelessWidget {
             child: SizedBox(
               width: 4 * size.width / 9,
               child: TextButton(
-                onPressed: (){
+                onPressed: () async {
                   controlData.update((final ControlData data){
                     data.lShoulder = true;
                     data.rShoulder = true;
                   });
-                  controlData.update((final ControlData data){
-                    data.lShoulder = false;
-                    data.rShoulder = false;
-                  });
+                  await Future.delayed(Duration(milliseconds: 500),
+                    (){
+                      controlData.update((final ControlData data){
+                        data.lShoulder = false;
+                        data.rShoulder = false;
+                      });
+                    }
+                  );
                 },
                 child: Text(Loc.get("switch_arm_movement_mode"), style: ThemeManager.textStyle,),
               ),
@@ -186,8 +190,20 @@ class SimplifiedControlStack extends StatelessWidget {
             child: SizedBox(
               width: 4 * size.width / 9,
               child: TextButton(
-                onPressed: (){},
-                child: Text(Loc.get("move_arm_in_view"), style: ThemeManager.textStyle,),
+                onPressed: () async {
+                  controlData.update((final ControlData data){
+                    data.rTop = true;
+                  });
+                  await Future.delayed(Duration(milliseconds: 500),
+                    (){
+                      controlData.update((final ControlData data){
+                      data.rTop = false;
+                      });
+                    }
+                  );
+                  
+                },
+                child: Text(Loc.get("move_arm_home"), style: ThemeManager.textStyle,),
               ),
             )
           ),
@@ -196,7 +212,19 @@ class SimplifiedControlStack extends StatelessWidget {
             child: SizedBox(
               width: 4 * size.width / 9,
               child: TextButton(
-                onPressed: (){},
+                onPressed: () async {
+                  controlData.update((final ControlData data){
+                    data.rLeft = true;
+                  });
+                  
+                  await Future.delayed(Duration(milliseconds: 500),
+                    (){
+                      controlData.update((final ControlData data){
+                      data.rLeft = false;
+                      });
+                    }
+                  );
+                },
                 child: Text(Loc.get("move_arm_above_sample_container"), style: ThemeManager.textStyle,),
               ),
             )
@@ -206,10 +234,17 @@ class SimplifiedControlStack extends StatelessWidget {
             child: SizedBox(
               width: 4 * size.width / 9,
               child: TextButton(
-                onPressed: (){
+                onPressed: () async {
                   controlData.update((final ControlData data){
                     data.rBottom = true;
                   });
+                  await Future.delayed(Duration(milliseconds: 500),
+                    (){
+                      controlData.update((final ControlData data){
+                      data.rBottom = false;
+                      });
+                    }
+                  );
                 },
                 child: Text(Loc.get("soft_stop"), style: ThemeManager.textStyle,),
               ),
@@ -286,13 +321,17 @@ class SimplifiedControlStack extends StatelessWidget {
             child: SizedBox(
               width: size.width / 4,
               child: TextButton(
-                onPressed: (){
+                onPressed: () async {
                   controlData.update((final ControlData data){
                     data.lLeft = true;
                   });
-                  controlData.update((final ControlData data){
-                    data.lLeft = false;
-                  });
+                  await Future.delayed(Duration(milliseconds: 500),
+                    (){
+                      controlData.update((final ControlData data){
+                      data.lLeft = false;
+                      });
+                    }
+                  );
                 },
                 child: Text(Loc.get("arm_base_left"), style: ThemeManager.textStyle,)
               ),
@@ -303,13 +342,17 @@ class SimplifiedControlStack extends StatelessWidget {
             child: SizedBox(
               width: size.width / 4,
               child: TextButton(
-                onPressed: (){
+                onPressed: () async {
                   controlData.update((final ControlData data){
                     data.lRight = true;
                   });
-                  controlData.update((final ControlData data){
-                    data.lRight = false;
-                  });
+                  await Future.delayed(Duration(milliseconds: 500),
+                    (){
+                      controlData.update((final ControlData data){
+                      data.lRight = false;
+                      });
+                    }
+                  );
                 },
                 child: Text(Loc.get("arm_base_right"), style: ThemeManager.textStyle,)
               ),
@@ -320,13 +363,17 @@ class SimplifiedControlStack extends StatelessWidget {
             child: SizedBox(
               width: size.width / 4,
               child: TextButton(
-                onPressed: (){
+                onPressed: () async {
                   controlData.update((final ControlData data){
                     data.lTop = true;
                   });
-                  controlData.update((final ControlData data){
-                    data.lTop = false;
-                  });
+                  await Future.delayed(Duration(milliseconds: 500),
+                    (){
+                      controlData.update((final ControlData data){
+                      data.lTop = false;
+                      });
+                    }
+                  );
                 },
                 child: Text(Loc.get("grip_close"), style: ThemeManager.textStyle,)
               ),
@@ -337,13 +384,17 @@ class SimplifiedControlStack extends StatelessWidget {
             child: SizedBox(
               width: size.width / 4,
               child: TextButton(
-                onPressed: (){
+                onPressed: () async {
                   controlData.update((final ControlData data){
                     data.lBottom = true;
                   });
-                  controlData.update((final ControlData data){
-                    data.lBottom = false;
-                  });
+                  await Future.delayed(Duration(milliseconds: 500),
+                    (){
+                      controlData.update((final ControlData data){
+                      data.lBottom = false;
+                      });
+                    }
+                  );
                 },
                 child: Text(Loc.get("grip_open"), style: ThemeManager.textStyle,)
               ),
