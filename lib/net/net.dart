@@ -83,7 +83,7 @@ abstract class Net{
 
   static Future<bool> _sendCmd(final Uint8List request, final MessageId id) async {
     try{
-      channel?.sink.add(Uint16List.fromList([id.index, 0xFF, ...request]));
+      channel?.sink.add(Uint8List.fromList([id.index, 0xFF, ...request]));
       return true;
     }
     catch(ex){
@@ -99,7 +99,7 @@ abstract class Net{
     try{
       PendingRequest req = PendingRequest(id);
       _pendingRequests[req.requestId] = req;
-      channel?.sink.add(Uint16List.fromList([id.index, req.requestId]));
+      channel?.sink.add(Uint8List.fromList([id.index, req.requestId]));
 
       try {
         return await req.completer.future.timeout(
